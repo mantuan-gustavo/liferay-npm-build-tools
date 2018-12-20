@@ -176,6 +176,16 @@ function bundleRootPackage(outputDir) {
 		JSON.stringify(srcPkgJson, '', 2)
 	);
 
+	// Copy source configuration.json
+	const srcConfigJson = readJsonSync('configuration.json');
+
+	if (srcConfigJson) {
+		fs.writeFileSync(
+			path.join(pkg.dir, 'configuration.json'),
+			JSON.stringify(srcConfigJson, '', 2)
+		);
+	}
+
 	// Process package
 	return processPackage('pre', srcPkg, pkg)
 		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
